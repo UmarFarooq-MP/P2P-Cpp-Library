@@ -1,0 +1,1 @@
+add_executable(main main.cpp peer/peer.h peer/peer.cpp)
