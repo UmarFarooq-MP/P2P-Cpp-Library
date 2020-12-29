@@ -7,7 +7,10 @@
 
 
 class PeersManager {
-
+public:
+    void creatServer();
+    void connect();
+    void listen(0)
 };
 
 
