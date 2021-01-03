@@ -11,10 +11,9 @@
 
 class PeersManager {
     /** Master Socket is socket where a peer will listen **/
-    SocketResource masterSocket;
+    SocketResource m_masterSocket;
     /** If a new Peer arrives create an instance and add in connectedPeers **/
-    Peer::Peer *obj;
-
+    Peer::Peer *m_peer;
     std::unordered_map<std::string, Peer::Peer> connectedPeers;
 public:
 
