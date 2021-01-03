@@ -43,9 +43,7 @@ class SocketResource {
     Socket m_socket;
 
 public:
-    /** This method should be called only once that is why static **/
     SocketResource(Socket sockFd = -1);
-    static int init();
     static int cleanUp(void);
     bool close();
     bool setNonBlockingMode();
@@ -53,6 +51,9 @@ public:
     static SocketResource create();
     Socket resource() const;
     bool SetSocketNoDelay();
+
+    /** This method should be called only once that is why static **/
+    static int init();
 
 };
 

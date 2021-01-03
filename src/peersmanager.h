@@ -5,8 +5,18 @@
 #ifndef P2P_CPP_PEERSMANAGER_H
 #define P2P_CPP_PEERSMANAGER_H
 
+#include "peer/peer.h"
+#include <unordered_map>
+#include "socketresource.h"
 
 class PeersManager {
+    /** Master Socket is socket where a peer will listen **/
+    SocketResource masterSocket;
+    /** If a new Peer arrives create an instance and add in connectedPeers **/
+    Peer::Peer *obj;
+
+    std::unordered_map<std::string, Peer::Peer> connectedPeers;
+public:
 
 };
 
