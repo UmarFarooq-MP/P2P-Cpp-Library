@@ -6,14 +6,13 @@
 #include "peersmanager.h"
 
 void PeersManager::createServer(const std::string &ip, const int port) {
+
     SocketResource::init();
     m_socket = SocketResource::create();
-
     sockaddr_in address;
     std::memset(&address, 0, sizeof address);
     address.sin_family = AF_INET;
     address.sin_port = htons(port);
-
 #ifdef _WIN32
     auto addr = ::inet_addr(ip.c_str());
         if (addr == INADDR_NONE)
@@ -26,7 +25,7 @@ void PeersManager::createServer(const std::string &ip, const int port) {
 #endif
     if (::bind(m_socket.resource(), (struct sockaddr *) &address, sizeof(address)) == -1) {/**throw error**/}
     if (::listen(m_socket.resource(), 5) < 0) {/**throw error**/}
-    sleep(12);
+
 }
 
 void PeersManager::listen() {

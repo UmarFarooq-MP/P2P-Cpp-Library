@@ -6,16 +6,18 @@
 #define P2P_CPP_PEER_H
 
 #include <string>
+#include "../peermessages/peermessages.h"
 
 namespace Peer {
     class Peer {
         std::string m_peerName;
         std::string m_ip;
         int m_port;
+        PeerMessages *m_peerMessages;
     public:
         Peer() = default;
 
-        Peer(const std::string &name, const std::string &ip, const int port);
+        Peer(PeerMessages *peerMessages, const std::string &name, const std::string &ip, const int port);
 
         void setName(const std::string &name);
 
