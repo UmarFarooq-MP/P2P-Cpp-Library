@@ -4,7 +4,15 @@
 
 #include "peermessages.h"
 
-PeerMessages::PeerMessages() {
-    m_broadcastMessage = std::make_unique<BroadcastMessage>();
-    m_localMessages = std::make_unique<LocalMessages>();
+void PeerMessages::setMessage(const std::string &message , MESSAGEPRIORITY messagepriority) {
+    switch (messagepriority) {
+        case MESSAGEPRIORITY::FORGE:
+            m_messages.emplace_back(std::to_string(MESSAGEPRIORITY::FORGE) + message);
+            break;
+        case MESSAGEPRIORITY::TRANSACTION:
+            m_messages.emplace_back(std::to_string(MESSAGEPRIORITY::TRANSACTION) + message);
+            break;
+        default:
+            break;
+    }
 }

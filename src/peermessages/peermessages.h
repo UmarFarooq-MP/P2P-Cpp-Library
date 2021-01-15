@@ -5,16 +5,20 @@
 #ifndef P2P_CPP_PEERMESSAGES_H
 #define P2P_CPP_PEERMESSAGES_H
 
-#include <memory>
+#include <string>
+#include <vector>
 
-#include "broadcastmessage.h"
-#include "loclamessages.h"
+enum MESSAGEPRIORITY {
+    FORGE,
+    TRANSACTION
+};
+
 
 class PeerMessages {
-    std::unique_ptr<BroadcastMessage> m_broadcastMessage;
-    std::unique_ptr<LocalMessages> m_localMessages;
+    std::vector<std::string> m_messages;
 public:
-    PeerMessages();
+    PeerMessages() = default;
+    void setMessage(const std::string &message, MESSAGEPRIORITY);
 };
 
 
