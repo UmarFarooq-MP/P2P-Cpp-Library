@@ -5,19 +5,36 @@
 #ifndef P2P_CPP_PEER_H
 #define P2P_CPP_PEER_H
 
+#include <memory>
 #include <string>
 #include "../peermessages/peermessages.h"
 
 namespace Peer {
     class Peer {
+        int m_port;
         std::string m_peerName;
         std::string m_ip;
-        int m_port;
-        PeerMessages *m_peerMessages;
+        std::unique_ptr<PeerMessages> m_peerMessages;
+    public:
+        int getMPort() const;
+
+        void setMPort(int mPort);
+
+        const std::string &getMPeerName() const;
+
+        void setMPeerName(const std::string &mPeerName);
+
+        const std::string &getMIp() const;
+
+        void setMIp(const std::string &mIp);
+
+        const std::unique_ptr<PeerMessages> &getMPeerMessages() const;
+
+
     public:
         Peer() = default;
 
-        Peer(PeerMessages *peerMessages, const std::string &name, const std::string &ip, const int port);
+        Peer(const std::string &name, const std::string &ip, const int port);
 
         void setName(const std::string &name);
 

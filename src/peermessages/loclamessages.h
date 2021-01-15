@@ -7,7 +7,10 @@
 
 
 class LocalMessages {
-
+    // TODO::
+    //vector of string will be here
+public:
+    LocalMessages() = default;
 };
 
 

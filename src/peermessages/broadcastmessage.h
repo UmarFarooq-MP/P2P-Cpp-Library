@@ -7,7 +7,10 @@
 
 
 class BroadcastMessage {
-
+    // TODO::
+    //vector of string will be here
+public:
+    BroadcastMessage() = default;
 };
 
 
