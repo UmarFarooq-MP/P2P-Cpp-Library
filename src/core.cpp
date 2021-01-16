@@ -4,7 +4,7 @@
 int main() {
 
     PeersManager obj;
-    obj.createServer("",8080);
+    obj.connect("192.168.100.10",8080,0);
     sleep(20);
 //    std::cout << "Hello, World!" << std::endl;
     return 0;

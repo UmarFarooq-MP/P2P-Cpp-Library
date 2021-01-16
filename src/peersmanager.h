@@ -21,7 +21,7 @@ public:
 
     void listen();
 
-    bool connect(const std::string &ip,const int port);
+    bool connect(const std::string &ip, const int port, const int timeout);
 
     bool accept();
 };

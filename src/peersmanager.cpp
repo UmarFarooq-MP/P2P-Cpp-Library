@@ -31,71 +31,70 @@ void PeersManager::listen() {
 
 }
 
-bool PeersManager::connect(const std::string &ip, const int port) {
-//    if (port < 0x3E8 || port > 0xFFFF) {
-////        std::cout << "Invalid remote peer port\n";
-//        return false;
-//    }
-//    auto socket = SocketResource::create();
-//
-//    sockaddr_in addr;
-//    addr.sin_family = AF_INET;
-//    addr.sin_port = htons(port);
-//#ifdef _WIN32
-//    auto ipAddr = ::inet_addr(remotePeerAddr.c_str());
-//    if (ipAddr == INADDR_NONE)
-//        return false;
-//    if (ipAddr == INADDR_ANY)
-//        return false;
-//    addr.sin_addr.s_addr = ipAddr;
-//#else
-//    if (::inet_pton(AF_INET, remotePeerAddr.c_str(), &addr.sin_addr) <= 0) {
-////        std::cout << "Peers: Invalid IPv4 host address\n";
-//        return false;
-//    }
-//#endif
-//    if (timeout == 0) {
-//        if (::connect(socket.resource(), (struct sockaddr *) &addr, sizeof(addr)) != NO_ERROR) {
-////            std::cout << "Peer connection to " << remotePeerAddr << " on port " << port << " failed \n";
-//            return false;
-//        }
-//        std::unique_ptr<Peer> peer = std::make_unique<Peer>(m_p2pSocket, SocketResource(socket), 0);
-//        peerIsConnected(std::move(peer));
-//        return true;
-//    }
-//
-//    // with timeout
-//    socket.setNonBlockingMode();
-//    bool connected = false;
-//    int maxAttempts = timeout * 100;
-//    int attempts = 0;
-//    while (true) {
-//        if (attempts >= maxAttempts) {
-//            break;
-//        }
-//
-//        ++attempts;
-//        connected = ::connect(socket.resource(), (struct sockaddr *) &addr, sizeof(addr)) == NO_ERROR;
-//        if (!connected) {
-//            if (errno != EINPROGRESS && errno != EALREADY) {
+bool PeersManager::connect(const std::string &ip, const int port, const int timeout) {
+    if (port < 0x3E8 || port > 0xFFFF) {
+//        std::cout << "Invalid remote peer port\n";
+        return false;
+    }
+    auto socket = std::move(SocketResource::create());
+
+    sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(port);
+#ifdef _WIN32
+    auto ipAddr = ::inet_addr(remotePeerAddr.c_str());
+    if (ipAddr == INADDR_NONE)
+        return false;
+    if (ipAddr == INADDR_ANY)
+        return false;
+    addr.sin_addr.s_addr = ipAddr;
+#else
+    if (::inet_pton(AF_INET, ip.c_str(), &addr.sin_addr) <= 0) {
+//        std::cout << "Peers: Invalid IPv4 host address\n";
+        return false;
+    }
+#endif
+    if (timeout == 0) {
+        if (::connect(socket->resource(), (struct sockaddr *) &addr, sizeof(addr)) != NO_ERROR) {
+//            std::cout << "Peer connection to " << remotePeerAddr << " on port " << port << " failed \n";
+            return false;
+        }
+        std::unique_ptr<Peer::Peer> peer = std::make_unique<Peer::Peer>(SocketResource(*socket));
+        connectedPeer.emplace_back(std::move(peer));
+        return true;
+    }
+
+    // with timeout
+    socket->setNonBlockingMode();
+    bool connected = false;
+    int maxAttempts = timeout * 100;
+    int attempts = 0;
+    while (true) {
+        if (attempts >= maxAttempts) {
+            break;
+        }
+
+        ++attempts;
+        connected = ::connect(socket->resource(), (struct sockaddr *) &addr, sizeof(addr)) == NO_ERROR;
+        if (!connected) {
+            if (errno != EINPROGRESS && errno != EALREADY) {
 //                std::cout << "Socket connection to " << remotePeerAddr << ":" << port
 //                          << " failed, (timeout :" << timeout << ")\n";
-//            }
-//            usleep(10000);
-//        } else {
-//            std::unique_ptr<Peer> peer = std::make_unique<Peer>(
-//                    m_p2pSocket, SocketResource(socket), 0);
-//            peerIsConnected(std::move(peer));
-//            return true;
-//        }
-//    }
-//
-//    socket.setBlockMode();
-//    if (!connected) {
-////        std::cout << "Socket connection to " << remotePeerAddr << ":" << port << " timed out\n";
-//        return false;
-//    }
-//    return false;
+            }
+            usleep(10000);
+        } else {
+            std::unique_ptr<Peer::Peer> peer = std::make_unique<Peer::Peer>(
+                    SocketResource(*socket));
+            connectedPeer.emplace_back(std::move(peer));
+            return true;
+        }
+    }
+    socket->setBlockMode();
+    if (!connected) {
+//        std::cout << "Socket connection to " << remotePeerAddr << ":" << port << " timed out\n";
+        return false;
+    }
+    return false;
 }
 
 bool PeersManager::accept() {
