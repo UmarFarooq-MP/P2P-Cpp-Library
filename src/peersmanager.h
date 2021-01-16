@@ -10,18 +10,20 @@
 #include "socketresource.h"
 
 
-
-
-
 class PeersManager {
     /** Master Socket is socket where a peer will listen **/
-    SocketResource m_socket;
+    std::unique_ptr<SocketResource> m_socket;
     /** If a new Peer arrives create an instance and add in connectedPeers **/
-    std::unordered_map<std::string, Peer::Peer> connectedPeers;
+    std::vector<std::unique_ptr<Peer::Peer>> connectedPeer;
+
 public:
-    void createServer(const std::string &ip,const int port);
+    void createServer(const std::string &ip, const int port);
+
     void listen();
-    void connect();
+
+    bool connect(const std::string &ip,const int port);
+
+    bool accept();
 };
 
 

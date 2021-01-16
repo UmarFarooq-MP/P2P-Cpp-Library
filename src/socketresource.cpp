@@ -70,21 +70,23 @@ bool SocketResource::SetSocketNoDelay() {
     return rc == 0;
 }
 
-SocketResource SocketResource::create() {
+std::unique_ptr<SocketResource> SocketResource::create() {
     if (init() != NO_ERROR) {
         cleanUp();
-        return SocketResource(INVALID_SOCKET);
+        return nullptr;
     }
 
     Socket sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sock == INVALID_SOCKET) {
-        return SocketResource(INVALID_SOCKET);
+        return nullptr;
     }
-    SocketResource rsc(sock);
-    //    rsc.SetSocketNoDelay();
-    return rsc;
+    return std::make_unique<SocketResource>(sock);
 }
 
 Socket SocketResource::resource() const {
     return m_socket;
+}
+
+SocketResource::~SocketResource() {
+    close();
 }

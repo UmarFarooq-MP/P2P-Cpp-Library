@@ -5,6 +5,7 @@ int main() {
 
     PeersManager obj;
     obj.createServer("",8080);
+    sleep(20);
 //    std::cout << "Hello, World!" << std::endl;
     return 0;
 }

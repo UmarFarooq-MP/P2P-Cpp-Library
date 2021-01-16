@@ -8,6 +8,8 @@
 #include <memory>
 #include <string>
 #include "../peermessages/peermessages.h"
+#include "../socketresource.h"
+
 
 namespace Peer {
     class Peer {
@@ -16,6 +18,9 @@ namespace Peer {
         std::string m_ip;
         std::unique_ptr<PeerMessages> m_peerMessages;
     public:
+
+        Peer (const SocketResource &socket);
+
         int getMPort() const;
 
         void setMPort(int mPort);

@@ -2,6 +2,7 @@
 // Created by umar on 28/12/20.
 //
 
+#include <cstring>
 #include "peer.h"
 
 Peer::Peer::Peer(const std::string &name, const std::string &ip, const int port) :
@@ -57,5 +58,19 @@ void Peer::Peer::setMIp(const std::string &mIp) {
 
 const std::unique_ptr<PeerMessages> &Peer::Peer::getMPeerMessages() const {
     return m_peerMessages;
+}
+
+Peer::Peer::Peer(const SocketResource &socket) {
+
+    struct sockaddr_in address;
+    std::memset(&address, 0, sizeof address);
+    socklen_t len = sizeof(address);
+    int ret = ::getpeername(socket.resource(), (struct sockaddr *) &address, &len);
+    if (ret == -1) {
+        //TODO ::THROW ERROR HERE
+    }
+    m_port = address.sin_port;
+    m_ip = address.sin_addr.s_addr;
+    m_peerName = m_ip + std::to_string(m_port);
 }
 

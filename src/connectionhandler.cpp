@@ -28,9 +28,6 @@ const PeersManager &ConnectionHandler::getMPeers() const {
     return m_peers;
 }
 
-void ConnectionHandler::setMPeers(const PeersManager &mPeers) {
-    m_peers = mPeers;
-}
 
 Peer::Peer *ConnectionHandler::getPeer() const {
     return peer;
