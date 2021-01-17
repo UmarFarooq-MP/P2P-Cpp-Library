@@ -32,7 +32,7 @@ void PeersManager::listen(const int remaining) {
     m_socket->setNonBlockingMode();
     for (int i = remaining; i > 0; --i) {
         accept();
-    };
+    }
     m_socket->setBlockMode();
 }
 
@@ -99,7 +99,7 @@ bool PeersManager::connect(const std::string &ip, const int port, const int time
 //        std::cout << "Socket connection to " << remotePeerAddr << ":" << port << " timed out\n";
         return false;
     }
-    return false;
+    return 0;
 }
 
 bool PeersManager::accept() {
