@@ -55,7 +55,6 @@ public:
     /** This method should be called only once that is why static **/
     static int init();
     ~SocketResource();
-
 };
 
 

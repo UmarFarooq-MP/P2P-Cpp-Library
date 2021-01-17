@@ -17,9 +17,9 @@ class PeersManager {
     std::vector<std::unique_ptr<Peer::Peer>> connectedPeer;
 
 public:
-    void createServer(const std::string &ip, const int port);
+    void startServer(const std::string &ip, const int port);
 
-    void listen();
+    void listen(const int remaining);
 
     bool connect(const std::string &ip, const int port, const int timeout);
 

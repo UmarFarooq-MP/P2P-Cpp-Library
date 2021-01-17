@@ -60,7 +60,7 @@ const std::unique_ptr<PeerMessages> &Peer::Peer::getMPeerMessages() const {
     return m_peerMessages;
 }
 
-Peer::Peer::Peer(const SocketResource &socket) {
+Peer::Peer::Peer(const SocketResource socket) {
 
     struct sockaddr_in address;
     std::memset(&address, 0, sizeof address);
@@ -69,8 +69,8 @@ Peer::Peer::Peer(const SocketResource &socket) {
     if (ret == -1) {
         //TODO ::THROW ERROR HERE
     }
-    m_port = address.sin_port;
-    m_ip = address.sin_addr.s_addr;
+    m_port = ntohs(address.sin_port);
+    m_ip = ::inet_ntoa(address.sin_addr);
     m_peerName = m_ip + std::to_string(m_port);
 }
 

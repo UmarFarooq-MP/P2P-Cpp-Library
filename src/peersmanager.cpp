@@ -3,9 +3,10 @@
 //
 
 #include <cstring>
+#include <iostream>
 #include "peersmanager.h"
 
-void PeersManager::createServer(const std::string &ip, const int port) {
+void PeersManager::startServer(const std::string &ip, const int port) {
 
     SocketResource::init();
     m_socket = std::move(SocketResource::create());
@@ -24,11 +25,15 @@ void PeersManager::createServer(const std::string &ip, const int port) {
     if (::inet_pton(AF_INET, ip.c_str(), &address.sin_addr) <= 0) {/**throw error**/}
 #endif
     if (::bind(m_socket->resource(), (struct sockaddr *) &address, sizeof(address)) == -1) {/**throw error**/}
-    if (::listen(m_socket->resource(), 5) < 0) {/**throw error**/}
+    if (::listen(m_socket->resource(), 10) < 0) {/**throw error**/}
 }
 
-void PeersManager::listen() {
-
+void PeersManager::listen(const int remaining) {
+    m_socket->setNonBlockingMode();
+    for (int i = remaining; i > 0; --i) {
+        accept();
+    };
+    m_socket->setBlockMode();
 }
 
 bool PeersManager::connect(const std::string &ip, const int port, const int timeout) {
@@ -108,6 +113,7 @@ bool PeersManager::accept() {
     if (peerSocket == INVALID_SOCKET)
         return false;
     std::unique_ptr<Peer::Peer> peer = std::make_unique<Peer::Peer>(SocketResource(peerSocket));
+    std::cout << "peer connected with ip = " << peer->getIP() << " port = " << addr.sin_port << std::endl;
     connectedPeer.push_back(std::move(peer));
     return true;
 }

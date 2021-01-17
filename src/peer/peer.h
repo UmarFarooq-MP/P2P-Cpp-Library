@@ -19,7 +19,7 @@ namespace Peer {
         std::unique_ptr<PeerMessages> m_peerMessages;
     public:
 
-        Peer (const SocketResource &socket);
+        Peer (const SocketResource socket);
 
         int getMPort() const;
 
