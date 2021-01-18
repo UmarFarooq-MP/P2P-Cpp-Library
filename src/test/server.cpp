@@ -7,10 +7,10 @@
 
 int main( ) {
     PeersManager server;
-    server.startServer("127.0.0.1",8080);
+    server.startServer("127.0.0.1",8082);
     while (true) {
         std::cout << "Server Listening \n";
         server.listen(1);
-        sleep(5);
+        sleep(10);
     }
 }
