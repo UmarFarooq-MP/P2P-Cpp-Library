@@ -113,7 +113,7 @@ bool PeersManager::accept() {
     if (peerSocket == INVALID_SOCKET)
         return false;
     std::unique_ptr<Peer::Peer> peer = std::make_unique<Peer::Peer>(SocketResource(peerSocket));
-    std::cout << "peer connected with ip = " << peer->getIP() << " port = " << addr.sin_port << std::endl;
+    std::cout << "peer connected with ip = " << peer->getMIp() << " port = " << addr.sin_port << std::endl;
     connectedPeer.push_back(std::move(peer));
     return true;
 }

@@ -6,6 +6,7 @@
 #define P2P_CPP_SOCKETRESOURCE_H
 
 #include <memory>
+
 #ifdef _WIN32
 /* See http://stackoverflow.com/questions/12765743/getaddrinfo-on-win32 */
 #    ifndef _WIN32_WINNT
@@ -45,16 +46,26 @@ class SocketResource {
     int socketFd;
 public:
     SocketResource(Socket sockFd = -1);
+
     static int cleanUp(void);
+
     bool close();
+
     bool setNonBlockingMode();
+
     bool setBlockMode();
+
     static std::unique_ptr<SocketResource> create();
+
     Socket resource() const;
+
     bool SetSocketNoDelay();
+
     /** This method should be called only once that is why static **/
     static int init();
-    ~SocketResource();
+
+    void operator=(const SocketResource &object);
+
 };
 
 

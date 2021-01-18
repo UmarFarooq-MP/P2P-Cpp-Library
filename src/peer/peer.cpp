@@ -3,34 +3,9 @@
 //
 
 #include <cstring>
+#include <iostream>
 #include "peer.h"
 
-Peer::Peer::Peer(const std::string &name, const std::string &ip, const int port) :
-        m_port(port), m_ip(ip), m_peerName(ip + name), m_peerMessages(std::make_unique<PeerMessages>()) {}
-
-void Peer::Peer::setName(const std::string &name) {
-    m_peerName = name;
-}
-
-void Peer::Peer::setIP(const std::string &ip) {
-    m_ip = ip;
-}
-
-void Peer::Peer::setPort(const int port) {
-    m_port = port;
-}
-
-std::string Peer::Peer::getName() {
-    return m_peerName;
-}
-
-std::string Peer::Peer::getIP() {
-    return m_ip;
-}
-
-int Peer::Peer::getPort() {
-    return m_port;
-}
 
 int Peer::Peer::getMPort() const {
     return m_port;
@@ -60,7 +35,7 @@ const std::unique_ptr<PeerMessages> &Peer::Peer::getMPeerMessages() const {
     return m_peerMessages;
 }
 
-Peer::Peer::Peer(const SocketResource socket) {
+Peer::Peer::Peer(const SocketResource socket) : m_socket{socket} {
 
     struct sockaddr_in address;
     std::memset(&address, 0, sizeof address);
@@ -74,3 +49,7 @@ Peer::Peer::Peer(const SocketResource socket) {
     m_peerName = m_ip + std::to_string(m_port);
 }
 
+Peer::Peer::~Peer() {
+    std::cout << "Peer Destructor called \n";
+    m_socket.close();
+}

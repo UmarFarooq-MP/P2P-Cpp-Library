@@ -17,9 +17,12 @@ namespace Peer {
         std::string m_peerName;
         std::string m_ip;
         std::unique_ptr<PeerMessages> m_peerMessages;
+        SocketResource m_socket;
     public:
 
         Peer (const SocketResource socket);
+
+        ~Peer();
 
         int getMPort() const;
 
@@ -35,23 +38,6 @@ namespace Peer {
 
         const std::unique_ptr<PeerMessages> &getMPeerMessages() const;
 
-
-    public:
-        Peer() = default;
-
-        Peer(const std::string &name, const std::string &ip, const int port);
-
-        void setName(const std::string &name);
-
-        void setIP(const std::string &ip);
-
-        void setPort(const int port);
-
-        std::string getName();
-
-        std::string getIP();
-
-        int getPort();
     };
 }
 #endif //P2P_CPP_PEER_H

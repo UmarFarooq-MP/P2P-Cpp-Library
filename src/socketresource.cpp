@@ -87,6 +87,7 @@ Socket SocketResource::resource() const {
     return m_socket;
 }
 
-SocketResource::~SocketResource() {
-    close();
+void SocketResource::operator=(const SocketResource &object) {
+    m_socket = object.resource();
 }
+
