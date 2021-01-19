@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include "peer.h"
+#include "../messageprocesser.h"
 
 
 int Peer::Peer::getMPort() const {
@@ -83,10 +84,7 @@ std::vector<std::string> Peer::Peer::read(int length) {
 #endif
     }
     if (recv == 0) {
-        // Connection is no longer valid, remote has been disconnected
-        //TODO::
-        //        this->m_master->events()->onPeerDisconnect()->trigger(this);
-//        this->m_master->peers()->remove(this);
+        m_connected = false;
         return {};
     }
     m_recvBuf += std::string{tempRecvBuf.begin(), tempRecvBuf.begin() + recv};

@@ -7,16 +7,16 @@
 
 int main() {
     PeersManager client;
-    if (client.connect("127.0.0.1", 8082, 0)) {
+    if (client.connect("127.0.0.1", 8080, 0)) {
         std::cout << "Peer Connected \n";
     }
-//    while (true) {
+    while (true) {
         for (const auto &itr:client.m_connectedPeer) {
             itr->send("hello server1");
             itr->send("hello server2");
             itr->read(1024);
         }
         std::cout << "sleeping \n";
-//        sleep(5);
-//    }
+        sleep(5);
+    }
 }
