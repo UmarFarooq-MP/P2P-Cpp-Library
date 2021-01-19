@@ -17,7 +17,9 @@ namespace Peer {
         int m_messageCount;
         std::string m_peerName;
         std::string m_ip;
-        std::unique_ptr<PeerMessages> m_peerMessages;
+        /** This property peerMessage is delibrately
+         * commented out so that user can use it according the use case **/
+//        std::unique_ptr<PeerMessages> m_peerMessages;
         std::string m_recvBuf;
         SocketResource m_socket;
     public:
