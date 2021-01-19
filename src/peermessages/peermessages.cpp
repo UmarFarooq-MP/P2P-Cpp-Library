@@ -4,7 +4,7 @@
 
 #include "peermessages.h"
 
-void PeerMessages::setMessage(const std::string &message , MESSAGEPRIORITY messagepriority) {
+void PeerMessages::setMessage(const std::string &message, MESSAGEPRIORITY messagepriority) {
     switch (messagepriority) {
         case MESSAGEPRIORITY::FORGE:
             m_messages.emplace_back(std::to_string(MESSAGEPRIORITY::FORGE) + message);

@@ -65,7 +65,7 @@ bool PeersManager::connect(const std::string &ip, const int port, const int time
             return false;
         }
         std::unique_ptr<Peer::Peer> peer = std::make_unique<Peer::Peer>(SocketResource(*socket));
-        connectedPeer.emplace_back(std::move(peer));
+        m_connectedPeer.emplace_back(std::move(peer));
         return true;
     }
 
@@ -90,7 +90,7 @@ bool PeersManager::connect(const std::string &ip, const int port, const int time
         } else {
             std::unique_ptr<Peer::Peer> peer = std::make_unique<Peer::Peer>(
                     SocketResource(*socket));
-            connectedPeer.emplace_back(std::move(peer));
+            m_connectedPeer.emplace_back(std::move(peer));
             return true;
         }
     }
@@ -114,6 +114,6 @@ bool PeersManager::accept() {
         return false;
     std::unique_ptr<Peer::Peer> peer = std::make_unique<Peer::Peer>(SocketResource(peerSocket));
     std::cout << "peer connected with ip = " << peer->getMIp() << " port = " << addr.sin_port << std::endl;
-    connectedPeer.push_back(std::move(peer));
+    m_connectedPeer.push_back(std::move(peer));
     return true;
 }

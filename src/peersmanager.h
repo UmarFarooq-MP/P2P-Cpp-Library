@@ -14,9 +14,11 @@ class PeersManager {
     /** Master Socket is socket where a peer will listen **/
     std::unique_ptr<SocketResource> m_socket;
     /** If a new Peer arrives create an instance and add in connectedPeers **/
-    std::vector<std::unique_ptr<Peer::Peer>> connectedPeer;
 
 public:
+
+    std::vector<std::unique_ptr<Peer::Peer>> m_connectedPeer;
+
     void startServer(const std::string &ip, const int port);
 
     void listen(const int remaining);

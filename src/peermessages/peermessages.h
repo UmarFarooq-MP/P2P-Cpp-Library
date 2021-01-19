@@ -13,13 +13,11 @@ enum MESSAGEPRIORITY {
     TRANSACTION
 };
 
-
 class PeerMessages {
     std::vector<std::string> m_messages;
 public:
     PeerMessages() = default;
     void setMessage(const std::string &message, MESSAGEPRIORITY);
 };
-
 
 #endif //P2P_CPP_PEERMESSAGES_H
