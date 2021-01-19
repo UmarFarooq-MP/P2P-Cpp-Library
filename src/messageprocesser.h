@@ -13,8 +13,8 @@
 
 namespace MessageProcesser {
     static bool removePeerFromConnected(std::vector<std::unique_ptr<Peer::Peer>> &connectedPeers) {
-        while (!MutexLock::getInstance().tryLock()) {
-            sleep(2);
+        if (MutexLock::getInstance().tryLock()) {
+            MutexLock::getInstance().acquireLock();
         }
         connectedPeers.erase(std::remove_if(
                 connectedPeers.begin(), connectedPeers.end(),
@@ -24,8 +24,6 @@ namespace MessageProcesser {
         MutexLock::getInstance().releaseLock();
         return true;
     }
-
 };
-
 
 #endif //P2P_CPP_MESSAGEPROCESSER_H
